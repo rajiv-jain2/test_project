@@ -1,0 +1,40 @@
+!!!
+%html
+  = render 'layouts/head'
+  %body{:id => "#{controller.controller_name}"}
+    -if current_user
+      = link_to profile_path(slug: current_user.slug) do
+        .pull-right
+          Hi, #{current_user.email}
+          = link_to 'Log Out', destroy_user_session_path, :method => :delete
+    -else
+      = link_to 'Signin', new_user_session_path
+    = render 'layouts/navigation'
+    - if content_for? :sidebar
+      = yield :sidebar
+      .row
+        .col-lg-12= yield
+    -else
+      .row
+        .col-lg-12
+          = yield
+
+    = render 'layouts/footer'
+
+
+    - if Rails.env.development?
+      = debug(params)
+
+    = render 'layouts/tail'
+
+-#
+-#!!!
+-#%html
+-#  %head
+-#    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+-#    %title Edu
+-#    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+-#    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+-#    = csrf_meta_tags
+-#  %body
+-#    = yield
